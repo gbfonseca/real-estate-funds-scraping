@@ -1,0 +1,4 @@
+venv
+.vscode
+geckodriver.log
+Planilha_FIIs.csv
