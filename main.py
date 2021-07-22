@@ -24,8 +24,15 @@ def get_rs():
     table = soup.find(name="table")
 
     df_full = pd.read_html(str(table), index_col=0)[0]
+    df_full['Dividend Yield'] = df_full['Dividend Yield'].str.rstrip('%')
+    df_full['Dividend Yield'] = df_full['Dividend Yield'].str.replace(',', '.')
+    df_full['Dividend Yield'] = df_full['Dividend Yield'].astype(float) / 100
+    is_more_four_percent = df_full['Dividend Yield'] >= 0.04
+    df_full = df_full[is_more_four_percent]
+    df_full['Dividend Yield'] = df_full['Dividend Yield'].astype(str)
+    df_full['Dividend Yield'] = df_full['Dividend Yield'].str.replace('.', ',')
 
-    return df_full.to_csv('Planilha.csv')
+    return df_full.to_csv('brazil-real-estates-sheets.csv')
 
 
 get_rs()

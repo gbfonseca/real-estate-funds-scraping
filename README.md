@@ -1,2 +1,3 @@
-# real-states-scraping
-A web scraping for get real states of brazil
+# real-estate-funds-scraping
+
+A web scraping for get real estate funds of brazil

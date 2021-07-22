@@ -1,4 +1,5 @@
-venv
 .vscode
+.ipynb_checkpoints
+venv
 geckodriver.log
-Planilha_FIIs.csv
+brazil-real-estates-sheets.csv
