@@ -11,6 +11,20 @@ option.headless = False
 driver = webdriver.Firefox(options=option)
 
 
+def returnDYEqualOrBiggerFour(data_frame):
+    data_frame['Dividend Yield'] = data_frame['Dividend Yield'].str.rstrip('%')
+    data_frame['Dividend Yield'] = data_frame['Dividend Yield'].str.replace(
+        ',', '.')
+    data_frame['Dividend Yield'] = data_frame['Dividend Yield'].astype(
+        float) / 100
+    is_more_four_percent = data_frame['Dividend Yield'] >= 0.04
+    df_full = data_frame[is_more_four_percent]
+    data_frame['Dividend Yield'] = data_frame['Dividend Yield'].astype(str)
+    data_frame['Dividend Yield'] = data_frame['Dividend Yield'].str.replace(
+        '.', ',')
+    return data_frame
+
+
 def get_rs():
     driver.get(url)
 
@@ -24,13 +38,7 @@ def get_rs():
     table = soup.find(name="table")
 
     df_full = pd.read_html(str(table), index_col=0)[0]
-    df_full['Dividend Yield'] = df_full['Dividend Yield'].str.rstrip('%')
-    df_full['Dividend Yield'] = df_full['Dividend Yield'].str.replace(',', '.')
-    df_full['Dividend Yield'] = df_full['Dividend Yield'].astype(float) / 100
-    is_more_four_percent = df_full['Dividend Yield'] >= 0.04
-    df_full = df_full[is_more_four_percent]
-    df_full['Dividend Yield'] = df_full['Dividend Yield'].astype(str)
-    df_full['Dividend Yield'] = df_full['Dividend Yield'].str.replace('.', ',')
+    df_full = returnDYEqualOrBiggerFour(df_full)
 
     return df_full.to_csv('brazil-real-estates-sheets.csv')
 
