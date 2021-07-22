@@ -2,27 +2,14 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from filters.DYEqualOrBiggerFour import returnDYEqualOrBiggerFour
 
 url = 'https://fundamentus.com.br/fii_resultado.php'
 
 
 option = Options()
-option.headless = False
+option.headless = True
 driver = webdriver.Firefox(options=option)
-
-
-def returnDYEqualOrBiggerFour(data_frame):
-    data_frame['Dividend Yield'] = data_frame['Dividend Yield'].str.rstrip('%')
-    data_frame['Dividend Yield'] = data_frame['Dividend Yield'].str.replace(
-        ',', '.')
-    data_frame['Dividend Yield'] = data_frame['Dividend Yield'].astype(
-        float) / 100
-    is_more_four_percent = data_frame['Dividend Yield'] >= 0.04
-    df_full = data_frame[is_more_four_percent]
-    data_frame['Dividend Yield'] = data_frame['Dividend Yield'].astype(str)
-    data_frame['Dividend Yield'] = data_frame['Dividend Yield'].str.replace(
-        '.', ',')
-    return data_frame
 
 
 def get_rs():

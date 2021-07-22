@@ -3,3 +3,4 @@
 venv
 geckodriver.log
 brazil-real-estates-sheets.csv
+*/__pycache__
